@@ -18,6 +18,11 @@ package com.okta.cli.test
 import groovy.json.JsonOutput
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
+
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.containsString
+import static org.hamcrest.Matchers.equalTo
 
 trait MockWebSupport {
 
@@ -50,6 +55,11 @@ trait MockWebSupport {
                 .setResponseCode(status)
                 .setBody(body)
                 .setHeader("Content-Type", "application/json")
+    }
+
+    static void verify(RecordedRequest request, String method, String relativeUri) {
+        assertThat request.requestUrl.toString(), containsString(relativeUri)
+        assertThat request.method, equalTo(method)
     }
 
 }
