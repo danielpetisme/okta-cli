@@ -21,7 +21,6 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.containsString
 import static org.hamcrest.Matchers.equalTo
 
 trait MockWebSupport {
@@ -57,8 +56,9 @@ trait MockWebSupport {
                 .setHeader("Content-Type", "application/json")
     }
 
-    static void verify(RecordedRequest request, String method, String relativeUri) {
-        assertThat request.requestUrl.toString(), containsString(relativeUri)
+    void verify(RecordedRequest request, String method, String relativeUri, String query = null) {
+        assertThat request.requestUrl.uri().getPath(), equalTo(relativeUri)
+        assertThat request.requestUrl.uri().getQuery(), equalTo(query)
         assertThat request.method, equalTo(method)
     }
 
