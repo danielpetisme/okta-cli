@@ -34,13 +34,14 @@ jobs:
       REPO_SLUG: ${{ github.repository }}
       BRANCH: ${{ github.head_ref }}
       RUN_IT: true
+      OKTA_ITS_TIMEOUT: PT45s
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up GraalVM (Java 11)
-        uses: DeLaGuardo/setup-graalvm@3
+        uses: DeLaGuardo/setup-graalvm@8bbfe44e
         with:
-          graalvm-version: '20.2.0.java11'
+          graalvm-version: '20.3.0.java11'
 
       - name: Install native-image
         run: gu install native-image
@@ -70,9 +71,9 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Set up GraalVM (Java 11)
-        uses: DeLaGuardo/setup-graalvm@3
+        uses: DeLaGuardo/setup-graalvm@8bbfe44e
         with:
-          graalvm-version: '20.2.0.java11'
+          graalvm-version: '20.3.0.java11'
 
       - name: Install native-image
         run: gu install native-image
@@ -101,7 +102,7 @@ jobs:
       - name: Build and Test
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -V install -Pci -DskipTests -DskipITs -e
+          mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -V install -Pci -e
         shell: cmd
 
       - name: Archive Binary

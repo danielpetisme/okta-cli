@@ -62,4 +62,7 @@ trait MockWebSupport {
         assertThat request.method, equalTo(method)
     }
 
+    String url(MockWebServer server, String path) {
+        return "http://localhost:${server.port}${path}"
+    }
 }
